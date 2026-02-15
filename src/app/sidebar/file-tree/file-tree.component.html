@@ -1,0 +1,24 @@
+<div class="pl-2 w-full">
+  <div *ngFor="let node of nodes" class="w-full">
+
+    <!-- File -->
+    <div *ngIf="node.type === 'file'"
+         class="px-3 py-1 cursor-pointer transition
+                hover:bg-[var(--accent-soft)]"
+         (click)="displayFileContent(node.path)">
+      • {{ node.name }}
+    </div>
+
+    <!-- Folder -->
+    <div *ngIf="node.type === 'folder'"
+         class="px-3 py-1 font-semibold text-[var(--muted)]">
+      > {{ node.name }}
+
+      <app-file-tree
+        *ngIf="node.children"
+        [nodes]="node.children">
+      </app-file-tree>
+    </div>
+
+  </div>
+</div>
