@@ -1,44 +1,66 @@
-<div class="flex min-h-screen bg-[var(--bg)] text-[var(--text)] transition-all duration-300">
+<div class="relative min-h-screen bg-[var(--bg)] text-[var(--text)]">
 
-  <!-- Sidebar -->
+  <!-- Invisible Header-->
+  <div class="fixed top-0 left-0 right-0 h-16 z-40 flex items-center px-6">
+    <div
+      class="w-8 h-8 cursor-pointer"
+      (click)="toggleSideBar()">
+      <img src="elytra-logo.png" alt="logo"/>
+    </div>
+  </div>
+
+  <!-- Overlay Backdrop -->
   <div
-    class="w-72 fixed left-0 top-0 h-screen flex flex-col
-         bg-[var(--sidebar)] border-r border-[var(--border)] z-50
-         transition-all duration-300"
-    [class.hidden]="!sidebarOpen">
+    *ngIf="sidebarOpen"
+    class="fixed inset-0 bg-black/40 z-40"
+    (click)="toggleSideBar()">
+  </div>
 
+  <!-- Sidebar (Overlay) -->
+  <div
+    class="fixed top-0 left-0 h-screen w-72
+         bg-[var(--sidebar)] border-r border-[var(--border)]
+         z-50 transform transition-transform duration-300
+         flex flex-col"
+    [class.-translate-x-full]="!sidebarOpen">
 
+    <!-- Header -->
     <div class="flex items-center justify-between px-4 py-4
-                border-b border-[var(--border)]">
+              border-b border-[var(--border)] shrink-0">
 
       <h1 class="text-2xl font-bold tracking-wide text-[var(--accent)]">
         ELYTRA
       </h1>
 
       <div
-        class="w-7 h-7 rounded-full cursor-pointer bg-[var(--accent)]"
+        class="w-7 h-7 rounded-full cursor-pointer"
         (click)="themeService.toggleTheme()">
+        <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1">
+          <title>ic_fluent_dark_theme_24_regular</title>
+          <desc>Created with Sketch.</desc>
+          <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="ic_fluent_dark_theme_24_regular" fill="#3b82f6" fill-rule="nonzero">
+              <path d="M12,22 C17.5228475,22 22,17.5228475 22,12 C22,6.4771525 17.5228475,2 12,2 C6.4771525,2 2,6.4771525 2,12 C2,17.5228475 6.4771525,22 12,22 Z M12,20.5 L12,3.5 C16.6944204,3.5 20.5,7.30557963 20.5,12 C20.5,16.6944204 16.6944204,20.5 12,20.5 Z" id="🎨-Color">
+              </path>
+            </g>
+          </g>
+        </svg>
       </div>
-
     </div>
 
+    <!-- Scrollable Area -->
     <div class="flex-1 overflow-y-auto scrollbar-none">
       <app-sidebar [treeData]="treeData"></app-sidebar>
     </div>
   </div>
 
+
   <!-- Main Content -->
-  <div
-    class="flex-1 px-12 py-10 transition-all duration-300"
-    [class.ml-72]="sidebarOpen">
+  <div class="pt-20 px-2 md:px-6">
 
-    <div class="mb-6">
-      <div class="bg-blue-500 w-8 h-8 cursor-pointer"
-           (click)="toggleSideBar()">
-      </div>
+    <div class="max-w-5xl mx-auto">
+      <router-outlet></router-outlet>
     </div>
-
-    <router-outlet></router-outlet>
 
   </div>
 

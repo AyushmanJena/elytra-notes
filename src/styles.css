@@ -77,9 +77,7 @@ body {
 .elytra-markdown {
   background: var(--bg);
   color: var(--text);
-  padding: 28px;
   border-radius: var(--radius);
-  line-height: 1.55;
   max-width: 850px;
   margin: auto;
   transition: all var(--transition-speed);

@@ -1,13 +1,13 @@
-<div class="max-w-4xl mx-auto mt-8
-            bg-[var(--panel)] border border-[var(--border)] p-10">
+<div class="max-w-4xl mx-auto md:mt-8
+            bg-[var(--panel)] border border-[var(--border)] md:p-10 ">
 
   <div class="mb-6">
-    <h1 class="text-2xl font-bold text-[var(--accent)]">
+    <h1 class="md:text-2xl font-bold text-[var(--accent)] pl-4 pt-4 md:pl-0 md:pt-0">
       {{ fileHeading }}
     </h1>
   </div>
 
-  <div class="elytra-markdown">
+  <div class="elytra-markdown leading-tight md:leading-normal p-2 md:p-[28px]">
     <markdown [data]="fileContent"></markdown>
   </div>
 
