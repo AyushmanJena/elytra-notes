@@ -11,14 +11,15 @@
 
     <!-- Folder -->
     <div *ngIf="node.type === 'folder'"
-         class="px-3 py-1 font-semibold text-[var(--muted)]">
-      > {{ node.name }}
-
-      <app-file-tree
-        *ngIf="node.children"
-        [nodes]="node.children">
-      </app-file-tree>
+         class="px-3 py-1 font-semibold cursor-pointer text-[var(--muted)]"
+         (click)="toggleFolder(node)">
+      {{ node.name }}
     </div>
 
+    <!-- Children -->
+    <app-file-tree
+      *ngIf="node.type === 'folder' && !node.collapsed && node.children"
+      [nodes]="node.children">
+    </app-file-tree>
   </div>
 </div>

@@ -8,6 +8,7 @@ import {FileTreeService} from './services/file-tree.service';
 import {ContentService} from './services/content.service';
 import {NgIf} from '@angular/common';
 import {FileListResponse, FileNode} from './models/FIleNode';
+import {SidebarService} from './services/sidebar.service';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,10 @@ export class AppComponent {
 
   constructor(public themeService: ThemeService,
     private fileTreeService: FileTreeService,
-    private contentService: ContentService,
+    private sidebarService: SidebarService,
   ){}
 
-  sidebarOpen: boolean = false;
+  sidebarOpen: boolean = true;
 
   ngOnInit(){
     this.themeService.initTheme();
@@ -31,10 +32,10 @@ export class AppComponent {
     this.fileTreeService.changeRepo("AyushmanJena", "ObsidianBackup", "main");
     this.fetchList();
 
-    // Open sidebar automatically on large screens
-    if (window.innerWidth >= 1024) {
-      this.sidebarOpen = true;
-    }
+    this.sidebarService.sidebarState$
+      .subscribe(state => {
+        this.sidebarOpen = state;
+      });
   }
 
 

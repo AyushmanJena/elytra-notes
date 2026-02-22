@@ -53,6 +53,8 @@ export class FileTreeService {
             children: isLast && node.type === 'blob' ? undefined : []
           };
 
+          newNode.collapsed = (newNode.type === 'folder')? true : false;
+
           currentLevel.push(newNode);
           existingNode = newNode;
         }

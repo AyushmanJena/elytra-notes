@@ -3,6 +3,7 @@ export interface FileNode {
   type: 'file' | 'folder';
   path: string;
   children? : FileNode[];
+  collapsed?: boolean; // only for folders
 }
 
 export interface FileListResponse {

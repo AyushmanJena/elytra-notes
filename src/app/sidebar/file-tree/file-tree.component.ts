@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {FileNode} from '../../models/FIleNode';
 import {Router} from '@angular/router';
+import {SidebarService} from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-file-tree',
@@ -17,9 +18,19 @@ export class FileTreeComponent {
   @Input()
   nodes: FileNode[] = [];
 
-  constructor(private router: Router){}
+  constructor(
+    private router: Router,
+    private sidebarService: SidebarService,
+  ){}
 
   displayFileContent(filePath: string){
     this.router.navigate(['/reader', filePath])
+    this.sidebarService.setSidebarState(false);
+  }
+
+  toggleFolder(node: FileNode) {
+    if (node.type === 'folder') {
+      node.collapsed = !node.collapsed;
+    }
   }
 }
