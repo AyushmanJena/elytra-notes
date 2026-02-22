@@ -7,8 +7,24 @@
     </h1>
   </div>
 
-  <div class="elytra-markdown leading-tight md:leading-normal p-2 md:p-[28px]">
-    <markdown [data]="fileContent"></markdown>
+  <div class="elytra-markdown leading-tight md:leading-normal p-2 md:p-[28px] break-words">
+
+    <ng-container *ngFor="let block of contentBlocks">
+
+      <!-- TEXT -->
+      <ng-container *ngIf="block.type === 'text'">
+        <markdown [data]="block.content"></markdown>
+      </ng-container>
+
+      <!-- IMAGE -->
+      <app-image-card
+        *ngIf="block.type === 'image'"
+        [filePath]="block.fileName"
+        [basePath]="currentAssetsPath">
+      </app-image-card>
+
+    </ng-container>
+
   </div>
 
 </div>

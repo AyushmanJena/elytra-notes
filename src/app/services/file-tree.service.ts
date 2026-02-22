@@ -65,7 +65,24 @@ export class FileTreeService {
       });
     });
 
+    this.sortFileTree(root);
+
     return root;
+  }
+
+  sortFileTree(nodes: FileNode[]){ // sort all folders first and then all files
+    nodes.sort((a, b) => {
+      if (a.type === 'folder' && b.type !== 'folder') return -1;
+      if (a.type !== 'folder' && b.type === 'folder') return 1;
+
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+
+    nodes.forEach(node => {
+      if (node.children && node.children.length > 0) {
+        this.sortFileTree(node.children);
+      }
+    });
   }
 
 }
