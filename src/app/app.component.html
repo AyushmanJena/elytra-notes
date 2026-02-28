@@ -28,7 +28,7 @@
     <div class="flex items-center justify-between px-4 py-4
               border-b border-[var(--border)] shrink-0">
 
-      <h1 class="text-2xl font-bold tracking-wide text-[var(--accent)]">
+      <h1 class="text-2xl font-bold tracking-wide text-[var(--accent)] select-none">
         ELYTRA
       </h1>
 
@@ -36,7 +36,7 @@
         class="w-7 h-7 rounded-full cursor-pointer"
         (click)="themeService.toggleTheme()">
         <svg width="28px" height="28px" viewBox="0 0 24 24" version="1.1">
-          <title>ic_fluent_dark_theme_24_regular</title>
+          <title>Toggle Theme</title>
           <desc>Created with Sketch.</desc>
           <g id="🔍-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
             <g id="ic_fluent_dark_theme_24_regular" fill="#3b82f6" fill-rule="nonzero">
@@ -48,9 +48,9 @@
       </div>
     </div>
 
-    <!-- Scrollable Area -->
+    <!-- Scrollable Sidebar -->
     <div class="flex-1 overflow-y-auto scrollbar-none">
-      <app-sidebar [treeData]="treeData"></app-sidebar>
+      <app-sidebar [treeData]="treeData" [repoName]="repoName"></app-sidebar>
     </div>
   </div>
 
@@ -64,4 +64,13 @@
 
   </div>
 
+</div>
+
+
+<div class="dialog-overlay " *ngIf="sourceChangeModalVisible" (click)="hideSourceChangeModal()">
+  <div class="dialog w-[75%]  md:w-[400px]  aspect-[3/2] flex flex-col gap-4" (click)="$event.stopPropagation()">
+    <h1>Change Source</h1>
+    <input class="repo-url-input" type="text" id="repoUrl" [(ngModel)]="repoUrl" placeholder="Repository URL">
+    <button class="repo-url-button" (click)="changeSource()">SAVE</button>
+  </div>
 </div>

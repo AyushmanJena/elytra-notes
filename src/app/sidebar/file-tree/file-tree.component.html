@@ -4,14 +4,14 @@
     <!-- File -->
     <div *ngIf="node.type === 'file'"
          class="px-3 py-1 cursor-pointer transition
-                hover:bg-[var(--accent-soft)]"
+                hover:bg-[var(--accent-soft)] select-none"
          (click)="displayFileContent(node.path)">
       • {{ node.name }}
     </div>
 
     <!-- Folder -->
     <div *ngIf="node.type === 'folder'"
-         class="px-3 py-1 font-semibold cursor-pointer text-[var(--muted)]"
+         class="px-3 py-1 font-semibold cursor-pointer text-[var(--muted)] select-none"
          (click)="toggleFolder(node)">
       {{ node.name }}
     </div>
