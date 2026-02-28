@@ -9,6 +9,8 @@ export class SourceChangeService {
   constructor() { }
 
   private modalState = new BehaviorSubject<boolean>(false);
+  userName! : string;
+  repoName!: string;
 
   modalState$ = this.modalState.asObservable();
 

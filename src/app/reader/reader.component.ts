@@ -4,6 +4,7 @@ import {ContentService} from '../services/content.service';
 import {MarkdownComponent} from 'ngx-markdown';
 import {ImageCardComponent} from './image-card/image-card.component';
 import {NgForOf, NgIf} from '@angular/common';
+import {SourceChangeService} from '../services/source-change.service';
 
 @Component({
   selector: 'app-reader',
@@ -23,7 +24,8 @@ export class ReaderComponent implements OnInit {
 
   constructor(
     private contentService: ContentService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sourceChangeService: SourceChangeService,
   ){}
 
   ngOnInit() {
@@ -83,20 +85,37 @@ export class ReaderComponent implements OnInit {
 
     this.fileHeading = filePath;
 
-    // remove md file name  simulating going back on folder
+    const userName = this.sourceChangeService.userName;
+    const repoName = this.sourceChangeService.repoName;
+
+    const githubBase =
+      `https://raw.githubusercontent.com/${userName}/${repoName}/main/`;                  // testing with hardcoded url
+
+    // file is image
+    if (this.isImageFile(filePath)) {
+
+      this.contentBlocks = [{
+        type: 'image',
+        fileName: filePath
+      }];
+
+      this.currentAssetsPath = githubBase;
+
+      return;
+    }
+
+    // file is markdown
     const lastSlashIndex = filePath.lastIndexOf('/');
 
     const baseFolder =
       lastSlashIndex !== -1
         ? filePath.substring(0, lastSlashIndex)
-        : filePath; // fallback safety
+        : filePath;
 
-    // add /assets simulating going inside /assets folder
     const assetsPath = `${baseFolder}/assets/`;
 
-    // add api url
     this.currentAssetsPath =
-      `https://raw.githubusercontent.com/AyushmanJena/ObsidianBackup/main/${assetsPath}`;
+      githubBase + assetsPath;
 
     this.contentService.fetchContent(filePath).subscribe({
       next: (response) => {
@@ -107,6 +126,10 @@ export class ReaderComponent implements OnInit {
         this.error = "Failed to fetch content";
       }
     });
+  }
+
+  isImageFile(filePath: string): boolean {
+    return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(filePath);
   }
 
 }

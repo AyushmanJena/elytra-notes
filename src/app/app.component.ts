@@ -37,7 +37,10 @@ export class AppComponent {
   ngOnInit(){
     this.themeService.initTheme();
 
-    this.fileTreeService.changeRepo("AyushmanJena", "ObsidianBackup", "main");
+    this.sourceChangeService.repoName = "ObsidianBackup";
+    this.sourceChangeService.userName = "AyushmanJena"
+
+    this.fileTreeService.changeRepo(this.sourceChangeService.userName, this.sourceChangeService.repoName, "main");
     this.repoName = "Vulcan's Notes";
     this.fetchList();
 
@@ -92,7 +95,8 @@ export class AppComponent {
 
     const username = parts[0];
     const repoName = parts[1];
-    this.repoName = repoName;
+    this.sourceChangeService.userName = username;
+    this.sourceChangeService.repoName = repoName;
 
     this.fileTreeService.changeRepo(username, repoName, "main");
     this.fetchList();
