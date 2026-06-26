@@ -97,6 +97,7 @@ export class AppComponent {
     const repoName = parts[1];
     this.sourceChangeService.userName = username;
     this.sourceChangeService.repoName = repoName;
+    this.repoName = repoName;
 
     this.fileTreeService.changeRepo(username, repoName, "main");
     this.fetchList();
