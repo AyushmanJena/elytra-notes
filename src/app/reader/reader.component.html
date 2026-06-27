@@ -1,11 +1,20 @@
 <div class="max-w-4xl mx-auto md:mt-8
             bg-[var(--panel)] border border-[var(--border)] md:p-10 ">
 
-  <div class="mb-6">
-    <h1 class="md:text-2xl font-bold text-[var(--accent)] pl-4 pt-4 md:pl-0 md:pt-0">
-      {{ fileHeading }}
-    </h1>
-  </div>
+  <div class="mb-6 flex items-center justify-between pl-4 pt-4 md:pl-0 md:pt-0">
+  <h1 class="md:text-2xl font-bold text-[var(--accent)]">
+    {{ fileHeading }}
+  </h1>
+
+  <!-- DOWNLOAD TO BE IMPLEMENTED PROPERLY LATER -->
+  <!-- <button 
+    (click)="downloadAsPdf()"
+    class="hidden md:block text-sm px-3 py-1.5 rounded border border-[var(--border)]
+           text-[var(--text)] hover:bg-[var(--accent)] hover:text-white
+           transition-colors duration-200">
+    Download PDF
+  </button> -->
+</div>
 
   <div class="elytra-markdown leading-tight md:leading-normal p-2 md:p-[28px] break-words">
 
@@ -17,10 +26,7 @@
       </ng-container>
 
       <!-- IMAGE -->
-      <app-image-card
-        *ngIf="block.type === 'image'"
-        [filePath]="block.fileName"
-        [basePath]="currentAssetsPath">
+      <app-image-card *ngIf="block.type === 'image'" [filePath]="block.fileName" [basePath]="currentAssetsPath">
       </app-image-card>
 
     </ng-container>

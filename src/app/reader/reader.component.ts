@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {ContentService} from '../services/content.service';
-import {MarkdownComponent} from 'ngx-markdown';
-import {ImageCardComponent} from './image-card/image-card.component';
-import {NgForOf, NgIf} from '@angular/common';
-import {SourceChangeService} from '../services/source-change.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ContentService } from '../services/content.service';
+import { MarkdownComponent } from 'ngx-markdown';
+import { ImageCardComponent } from './image-card/image-card.component';
+import { NgForOf, NgIf } from '@angular/common';
+import { SourceChangeService } from '../services/source-change.service';
+import { PrintService } from '../services/print.service';
 
 @Component({
   selector: 'app-reader',
@@ -26,12 +27,13 @@ export class ReaderComponent implements OnInit {
     private contentService: ContentService,
     private route: ActivatedRoute,
     private sourceChangeService: SourceChangeService,
-  ){}
+    private printService: PrintService,
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const filePath = params.get('filePath');
-      if(filePath){
+      if (filePath) {
         this.loadContent(filePath);
         this.fileHeading = filePath;
       }
@@ -40,7 +42,7 @@ export class ReaderComponent implements OnInit {
 
   contentBlocks: ContentBlock[] = [];
 
-  processMarkdown(content: string){
+  processMarkdown(content: string) {
     const regex = /!\[\[(.*?)\]\]/g;
 
     let lastIndex = 0;
@@ -132,11 +134,30 @@ export class ReaderComponent implements OnInit {
     return /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(filePath);
   }
 
+  // download as pdf
+  downloadAsPdf(): void {
+    // reconstruct full markdown from contentBlocks
+    const fullMarkdown = this.contentBlocks
+      .map(block => {
+        if (block.type === 'text') {
+          return block.content ?? '';
+        }
+        if (block.type === 'image') {
+          const url = encodeURI(`${this.currentAssetsPath}${block.fileName}`);
+          return `![${block.fileName}](${url})`;
+        }
+        return '';
+      })
+      .join('\n');
+
+    this.printService.downloadMarkdownAsPdf(fullMarkdown, this.fileHeading);
+  }
+
 }
 
 
 interface ContentBlock {
   type: 'text' | 'image';
   content?: string; // for text
-  fileName? : string; // for image
+  fileName?: string; // for image
 }

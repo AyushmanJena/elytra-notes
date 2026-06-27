@@ -56,7 +56,7 @@ export class AppComponent {
   }
 
 
-  treeData!: FileNode[];
+  treeData!: FileNode[]; // final variable which stores the resultant file structure
 
   fileListResponse!: FileListResponse;
   error: string = "";

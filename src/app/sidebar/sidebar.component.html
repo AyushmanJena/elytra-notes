@@ -4,16 +4,40 @@
     <h2 class="font-mono font-medium text-[var(--muted)]">
       {{ repoName }}
     </h2>
-    <div class=" h-6 w-6 cursor-pointer flex flex-row justify-center items-center" title="Change Source" (click)="showSourceChangeModal()">
+    <div class="h-6 w-6 cursor-pointer flex flex-row justify-center items-center" title="Change Source" (click)="showSourceChangeModal()">
       <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="Edit / Edit_Pencil_Line_01">
-          <path id="Vector" d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001" stroke="#9aa3b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path id="Vector" d="M4 20.0001H20M4 20.0001V16.0001L12 8.00012M4 20.0001L8 20.0001L16 12.0001M12 8.00012L14.8686 5.13146L14.8704 5.12976C15.2652 4.73488 15.463 4.53709 15.691 4.46301C15.8919 4.39775 16.1082 4.39775 16.3091 4.46301C16.5369 4.53704 16.7345 4.7346 17.1288 5.12892L18.8686 6.86872C19.2646 7.26474 19.4627 7.46284 19.5369 7.69117C19.6022 7.89201 19.6021 8.10835 19.5369 8.3092C19.4628 8.53736 19.265 8.73516 18.8695 9.13061L18.8686 9.13146L16 12.0001M12 8.00012L16 12.0001"
+            stroke="#9aa3b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
       </svg>
     </div>
   </div>
 
-  <app-file-tree [nodes]="treeData"></app-file-tree>
+  <!-- Search bar -->
+  <div class="px-3 py-2 border-b border-[var(--border)]">
+    <div class="flex items-center gap-2 px-2 py-1.5  bg-[var(--surface-1)] border border-[var(--border)] focus-within:border-[var(--border-strong)] transition-colors">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+        <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+          stroke="#9aa3b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <input
+        type="text"
+        placeholder="Search files"
+        [value]="searchQuery"
+        (input)="onSearch($any($event.target).value)"
+        class=" font-mono w-full bg-transparent outline-none text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] !rounded-none"
+      />
+      <!-- Clear button — only shown when there's a query -->
+      @if (searchQuery) {
+        <svg (click)="onSearch('')" class="shrink-0 cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
+          width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="#9aa3b2" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      }
+    </div>
+  </div>
+
+  <app-file-tree [nodes]="filteredData"></app-file-tree>
 
 </div>
-
