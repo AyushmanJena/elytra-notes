@@ -66,7 +66,7 @@ export class ReaderComponent implements OnInit {
       // image
       this.contentBlocks.push({
         type: 'image',
-        fileName: match[1]
+        fileName: this.normalizeImagePath(match[1])
       });
 
       lastIndex = imageTagEnd;
@@ -79,6 +79,18 @@ export class ReaderComponent implements OnInit {
         content: content.substring(lastIndex)
       });
     }
+  }
+
+  /**
+   * Image URLs are resolved relative to the markdown file's assets folder.
+   * Some notes include that folder in the wiki-link and some do not, so
+   * remove the optional prefix before the image card builds its URL.
+   */
+  private normalizeImagePath(filePath: string): string {
+    return filePath
+      .trim()
+      .replace(/^\.\//, '')
+      .replace(/^assets\//i, '');
   }
 
   currentAssetsPath!: string;
